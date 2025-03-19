@@ -102,7 +102,7 @@ const ProjectDetails = () => {
             ...selectedProject,
             Features: selectedProject.Features || [],
             TechStack: selectedProject.TechStack || [],
-            Github: selectedProject.Github || 'https://github.com/EkiZR',
+            Github: selectedProject.Github || 'https://github.com/khornSaokhouch',
             Img: selectedProject.Img || '/default-image.jpg',
           };
           setProject(enhancedProject);
