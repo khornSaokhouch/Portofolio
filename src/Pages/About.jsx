@@ -242,16 +242,16 @@ const AboutPage = () => {
           <ProfileImage />
         </div>
 
-        <a href="#Portofolio">
+        {/* <a href="#Portofolio">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 cursor-pointer">
             {statsData.map((stat) => (
               <StatCard key={stat.label} {...stat} />
             ))}
           </div>
-        </a>
+        </a> */}
       </div>
 
-      <style jsx>{`
+      {/* <style jsx>{`
         @keyframes float {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-20px); }
@@ -268,7 +268,7 @@ const AboutPage = () => {
         .animate-spin-slower {
           animation: spin-slower 8s linear infinite;
         }
-      `}</style>
+      `}</style> */}
     </div>
   );
 };

@@ -1,25 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  ArrowLeft, ExternalLink, Github, Code2, Star,
-  ChevronRight, Layers, Layout, Globe, Package, Cpu, Code,
-} from "lucide-react";
+import { ArrowLeft, ExternalLink, Github, Code2, ChevronRight, Layers } from "lucide-react";
 import Swal from 'sweetalert2';
+import { Globe, Layout, Cpu, Code, Package } from "lucide-react";
 
-const TECH_ICONS = {
-  React: Globe,
-  Tailwind: Layout,
-  Express: Cpu,
-  Python: Code,
-  Javascript: Code,
-  HTML: Code,
-  CSS: Code,
-  default: Package,
-};
+const TECH_ICONS = { React: Globe, Tailwind: Layout, Express: Cpu, Python: Code, default: Package };
 
 const TechBadge = ({ tech }) => {
   const Icon = TECH_ICONS[tech] || TECH_ICONS["default"];
-  
   return (
     <div className="group relative overflow-hidden px-3 py-2 md:px-4 md:py-2.5 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-xl border border-blue-500/10 hover:border-blue-500/30 transition-all duration-300 cursor-default">
       <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-500" />
@@ -54,7 +42,6 @@ const ProjectStats = ({ project }) => {
   return (
     <div className="grid grid-cols-2 gap-3 md:gap-4 p-3 md:p-4 bg-[#0a0a1a] rounded-xl overflow-hidden relative">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20 opacity-50 blur-2xl z-0" />
-
       <div className="relative z-10 flex items-center space-x-2 md:space-x-3 bg-white/5 p-2 md:p-3 rounded-lg border border-blue-500/20 transition-all duration-300 hover:scale-105 hover:border-blue-500/50 hover:shadow-lg">
         <div className="bg-blue-500/20 p-1.5 md:p-2 rounded-full">
           <Code2 className="text-blue-300 w-4 h-4 md:w-6 md:h-6" strokeWidth={1.5} />
@@ -102,18 +89,32 @@ const ProjectDetails = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const storedProjects = JSON.parse(localStorage.getItem("projects")) || [];
-    const selectedProject = storedProjects.find((p) => String(p.id) === id);
-    
-    if (selectedProject) {
-      const enhancedProject = {
-        ...selectedProject,
-        Features: selectedProject.Features || [],
-        TechStack: selectedProject.TechStack || [],
-        Github: selectedProject.Github || 'https://github.com/EkiZR',
-      };
-      setProject(enhancedProject);
-    }
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/data.json");
+        const data = await response.json();
+        console.log("Fetched Data:", data); // Log the data
+        const selectedProject = data.projects.find((p) => String(p.id) === id);
+        console.log("Selected Project:", selectedProject); // Log the selected project
+
+        if (selectedProject) {
+          const enhancedProject = {
+            ...selectedProject,
+            Features: selectedProject.Features || [],
+            TechStack: selectedProject.TechStack || [],
+            Github: selectedProject.Github || 'https://github.com/EkiZR',
+            Img: selectedProject.Img || '/default-image.jpg',
+          };
+          setProject(enhancedProject);
+        } else {
+          console.error("No project found with ID:", id);
+        }
+      } catch (error) {
+        console.error("Error loading project data:", error);
+      }
+    };
+
+    fetchData();
   }, [id]);
 
   if (!project) {
@@ -129,7 +130,7 @@ const ProjectDetails = () => {
 
   return (
     <div className="min-h-screen bg-[#030014] px-[2%] sm:px-0 relative overflow-hidden">
-      {/* Background animations remain unchanged */}
+      {/* Background Animations */}
       <div className="fixed inset-0">
         <div className="absolute -inset-[10px] opacity-20">
           <div className="absolute top-0 -left-4 w-72 md:w-96 h-72 md:h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
@@ -141,6 +142,7 @@ const ProjectDetails = () => {
 
       <div className="relative">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16">
+          {/* Breadcrumb and Header */}
           <div className="flex items-center space-x-2 md:space-x-4 mb-8 md:mb-12 animate-fadeIn">
             <button
               onClick={() => navigate(-1)}
@@ -157,164 +159,74 @@ const ProjectDetails = () => {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8 md:gap-16">
+            {/* Content Area */}
             <div className="space-y-6 md:space-y-10 animate-slideInLeft">
               <div className="space-y-4 md:space-y-6">
                 <h1 className="text-3xl md:text-6xl font-bold bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 bg-clip-text text-transparent leading-tight">
                   {project.Title}
                 </h1>
-                <div className="relative h-1 w-16 md:w-24">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-sm" />
-                </div>
-              </div>
-
-              <div className="prose prose-invert max-w-none">
-                <p className="text-base md:text-lg text-gray-300/90 leading-relaxed">
-                  {project.Description}
-                </p>
+                <p className="text-lg md:text-xl text-gray-400">{project.Description}</p>
               </div>
 
               <ProjectStats project={project} />
 
-              <div className="flex flex-wrap gap-3 md:gap-4">
-                {/* Action buttons */}
-                <a
-                  href={project.Link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative inline-flex items-center space-x-1.5 md:space-x-2 px-4 md:px-8 py-2.5 md:py-4 bg-gradient-to-r from-blue-600/10 to-purple-600/10 hover:from-blue-600/20 hover:to-purple-600/20 text-blue-300 rounded-xl transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40 backdrop-blur-xl overflow-hidden text-sm md:text-base"
-                >
-                  <div className="absolute inset-0 translate-y-[100%] bg-gradient-to-r from-blue-600/10 to-purple-600/10 transition-transform duration-300 group-hover:translate-y-[0%]" />
-                  <ExternalLink className="relative w-4 h-4 md:w-5 md:h-5 group-hover:rotate-12 transition-transform" />
-                  <span className="relative font-medium">Live Demo</span>
-                </a>
-
-                <a
-                  href={project.Github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative inline-flex items-center space-x-1.5 md:space-x-2 px-4 md:px-8 py-2.5 md:py-4 bg-gradient-to-r from-purple-600/10 to-pink-600/10 hover:from-purple-600/20 hover:to-pink-600/20 text-purple-300 rounded-xl transition-all duration-300 border border-purple-500/20 hover:border-purple-500/40 backdrop-blur-xl overflow-hidden text-sm md:text-base"
-                  onClick={(e) => !handleGithubClick(project.Github) && e.preventDefault()}
-                >
-                  <div className="absolute inset-0 translate-y-[100%] bg-gradient-to-r from-purple-600/10 to-pink-600/10 transition-transform duration-300 group-hover:translate-y-[0%]" />
-                  <Github className="relative w-4 h-4 md:w-5 md:h-5 group-hover:rotate-12 transition-transform" />
-                  <span className="relative font-medium">Github</span>
-                </a>
+              <div className="space-y-4 md:space-y-6">
+                <h2 className="text-2xl md:text-3xl font-semibold text-white">Technologies Used</h2>
+                <div className="flex gap-4 md:gap-8 flex-wrap">
+                  {project.TechStack.map((tech, idx) => (
+                    <TechBadge key={idx} tech={tech} />
+                  ))}
+                </div>
               </div>
 
               <div className="space-y-4 md:space-y-6">
-                <h3 className="text-lg md:text-xl font-semibold text-white/90 mt-[3rem] md:mt-0 flex items-center gap-2 md:gap-3">
-                  <Code2 className="w-4 h-4 md:w-5 md:h-5 text-blue-400" />
-                  Technologies Used
-                </h3>
-                {project.TechStack.length > 0 ? (
-                  <div className="flex flex-wrap gap-2 md:gap-3">
-                    {project.TechStack.map((tech, index) => (
-                      <TechBadge key={index} tech={tech} />
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm md:text-base text-gray-400 opacity-50">No technologies added.</p>
-                )}
+                <h2 className="text-2xl md:text-3xl font-semibold text-white">Main Features</h2>
+                <ul className="space-y-4">
+                  {project.Features.map((feature, idx) => (
+                    <FeatureItem key={idx} feature={feature} />
+                  ))}
+                </ul>
               </div>
             </div>
 
-            <div className="space-y-6 md:space-y-10 animate-slideInRight">
-              <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
-              
-                <div className="absolute inset-0 bg-gradient-to-t from-[#030014] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            {/* Image Area */}
+            <div className="relative">
+              <div className="relative w-full h-full rounded-xl overflow-hidden bg-gradient-to-r from-blue-700/10 to-purple-700/10">
                 <img
                   src={project.Img}
                   alt={project.Title}
-                  className="w-full  object-cover transform transition-transform duration-700 will-change-transform group-hover:scale-105"
+                  className="object-cover w-full h-full opacity-90 hover:opacity-100 transition-opacity duration-300 rounded-xl"
                   onLoad={() => setIsImageLoaded(true)}
+                  style={{ display: isImageLoaded ? "block" : "none" }}
                 />
-                <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/10 transition-colors duration-300 rounded-2xl" />
-              </div>
-
-              {/* Fitur Utama */}
-              <div className="bg-white/[0.02] backdrop-blur-xl rounded-2xl p-8 border border-white/10 space-y-6 hover:border-white/20 transition-colors duration-300 group">
-                <h3 className="text-xl font-semibold text-white/90 flex items-center gap-3">
-                  <Star className="w-5 h-5 text-yellow-400 group-hover:rotate-[20deg] transition-transform duration-300" />
-                  Key Features
-                </h3>
-                {project.Features.length > 0 ? (
-                  <ul className="list-none space-y-2">
-                    {project.Features.map((feature, index) => (
-                      <FeatureItem key={index} feature={feature} />
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-gray-400 opacity-50">No features added.</p>
-                )}
               </div>
             </div>
           </div>
+
+          {/* Github and Live Demo */}
+          <div className="mt-12">
+            <a
+              href={project.Github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-3 md:space-x-4 bg-blue-500/20 text-blue-400 hover:bg-blue-500/40 hover:text-white transition-all duration-300 text-sm md:text-lg font-semibold py-3 px-5 rounded-lg border border-blue-500/30"
+              onClick={() => handleGithubClick(project.Github)}
+            >
+              <Github className="w-5 h-5" />
+              <span>View Source Code</span>
+            </a>
+            <a
+              href={project.ProjectLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 flex items-center space-x-3 md:space-x-4 bg-purple-500/20 text-purple-400 hover:bg-purple-500/40 hover:text-white transition-all duration-300 text-sm md:text-lg font-semibold py-3 px-5 rounded-lg border border-purple-500/30"
+            >
+              <ExternalLink className="w-5 h-5" />
+              <span>Live Demo</span>
+            </a>
+          </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes blob {
-          0% {
-            transform: translate(0px, 0px) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-          100% {
-            transform: translate(0px, 0px) scale(1);
-          }
-        }
-        .animate-blob {
-          animation: blob 10s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.7s ease-out;
-        }
-        .animate-slideInLeft {
-          animation: slideInLeft 0.7s ease-out;
-        }
-        .animate-slideInRight {
-          animation: slideInRight 0.7s ease-out;
-        }
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        @keyframes slideInLeft {
-          from {
-            opacity: 0;
-            transform: translateX(-30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        @keyframes slideInRight {
-          from {
-            opacity: 0;
-            transform: translateX(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-      `}</style>
     </div>
   );
 };
