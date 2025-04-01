@@ -37,7 +37,7 @@ const FeatureItem = ({ feature }) => {
 
 const ProjectStats = ({ project }) => {
   const techStackCount = project?.TechStack?.length || 0;
-  const featuresCount = project?.Features?.length || 0;
+  const TeamCount = project?.Team?.length || 0;
 
   return (
     <div className="grid grid-cols-2 gap-3 md:gap-4 p-3 md:p-4 bg-[#0a0a1a] rounded-xl overflow-hidden relative">
@@ -48,7 +48,7 @@ const ProjectStats = ({ project }) => {
         </div>
         <div className="flex-grow">
           <div className="text-lg md:text-xl font-semibold text-blue-200">{techStackCount}</div>
-          <div className="text-[10px] md:text-xs text-gray-400">Total Teknologi</div>
+          <div className="text-[10px] md:text-xs text-gray-400">Total </div>
         </div>
       </div>
 
@@ -57,8 +57,8 @@ const ProjectStats = ({ project }) => {
           <Layers className="text-purple-300 w-4 h-4 md:w-6 md:h-6" strokeWidth={1.5} />
         </div>
         <div className="flex-grow">
-          <div className="text-lg md:text-xl font-semibold text-purple-200">{featuresCount}</div>
-          <div className="text-[10px] md:text-xs text-gray-400">Fitur Utama</div>
+          <div className="text-lg md:text-xl font-semibold text-purple-200">{TeamCount}</div>
+          <div className="text-[10px] md:text-xs text-gray-400">Total Member</div>
         </div>
       </div>
     </div>
@@ -180,9 +180,9 @@ const ProjectDetails = () => {
               </div>
 
               <div className="space-y-4 md:space-y-6">
-                <h2 className="text-2xl md:text-3xl font-semibold text-white">Main Features</h2>
+                <h2 className="text-2xl md:text-3xl font-semibold text-white">Team Member</h2>
                 <ul className="space-y-4">
-                  {project.Features.map((feature, idx) => (
+                  {project.Team.map((feature, idx) => (
                     <FeatureItem key={idx} feature={feature} />
                   ))}
                 </ul>

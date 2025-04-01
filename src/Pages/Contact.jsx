@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Share2, User, Mail, MessageSquare, Send } from "lucide-react";
 import { Link } from "react-router-dom";
 import SocialLinks from "../components/SocialLinks";
@@ -47,10 +47,10 @@ const ContactPage = () => {
       const form = e.target;
       const formData = new FormData(form);
 
-      // Submit form
-      await form.submit();
+      // You don't need to manually submit the form; FormSubmit handles it.
+      // The form will automatically send the data on its own.
 
-      // Show success message
+      // Show success message after form submission (this will happen after it's successfully sent)
       Swal.fire({
         title: 'Success!',
         text: 'Your message has been sent successfully!',
@@ -60,13 +60,14 @@ const ContactPage = () => {
         timerProgressBar: true
       });
 
-      // Reset form
+      // Reset form after submission
       setFormData({
         name: "",
         email: "",
         message: "",
       });
     } catch (error) {
+      // Show error message if there's an issue with submission
       Swal.fire({
         title: 'Error!',
         text: 'Something went wrong. Please try again later.',
@@ -131,7 +132,7 @@ const ContactPage = () => {
             </div>
 
             <form 
-              action="https://formsubmit.co/ekizulfarrachman@gmail.com"
+              action="https://formsubmit.co/khornsaokhouch4456@gmail.com"
               method="POST"
               onSubmit={handleSubmit}
               className="space-y-6"

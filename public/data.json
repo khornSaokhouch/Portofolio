@@ -2,27 +2,61 @@
   "projects": [
     {
       "id": "1",
-      "Img": "project1.png",
-      "Title": "Portfolio Website",
-      "Description": "A modern portfolio website built using React and Tailwind CSS.",
-      "ProjectLink": "https://example.com/project1",
-      "TechStack": ["ReactJS", "Tailwind CSS", "Vite"]
+      "Img": "/project1.png",
+      "Title": "Flower-Shop-website",
+      "Description": " website built using Html and CSS.",
+      "ProjectLink": "https://flower-shop-website-three.vercel.app",
+      "TechStack": ["Html", "CSS"],
+      "Github": "https://github.com/khornSaokhouch/Flower-Shop-website",
+      "Team": ["Khorn saokhouch "]
     },
     {
       "id": "2",
-      "Img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7c39VN-3aFz01_3YYhn-fjxT-ghx-1Gj_Pg&s",
-      "Title": "E-commerce Platform",
-      "Description": "A fully responsive e-commerce web application with Firebase authentication.",
-      "ProjectLink": "https://example.com/project2",
-      "TechStack": ["Next JS", "Firebase", "Node JS"]
+      "Img": "/project2.png", 
+      "Title": "Booking Tour Website",
+      "Description": "This website built using Nextjs frontend and  nodejs backend .",
+      "ProjectLink": "",
+      "TechStack": ["Nodejs", "nextjs", "react", "tailwindcss"],
+      "Github": "https://github.com/khornSaokhouch/BookingTourWebsite-Frontend",
+      "Team": ["Khorn saokhouch ", "Sam Nisa", "Sen vibol", "Kheng senhorng"]
     },
     {
       "id": "3",
-      "Img": "project3.png",
-      "Title": "Task Manager App",
-      "Description": "A task management tool for productivity tracking with real-time sync.",
-      "ProjectLink": "https://example.com/project3",
-      "TechStack": ["ReactJS", "Node JS", "MongoDB"]
+      "Img": "/project3.png",
+      "Title": "CookBook Website",
+      "Description": "This website built using Nextjs and tailwindcss with supabse.",
+      "ProjectLink": "",
+      "TechStack": ["Nextjs", "tailwindcss", "supabase"],
+      "Github": "https://github.com/khornSaokhouch/Bookbook_supabase",
+      "Team": ["Khorn saokhouch ", "Sam Nisa", "Sen vibol"]
+    },
+    {
+      "id": "4",
+      "Img": "/project4.png",
+      "Title": "Movie Website",
+      "Description": "This website built using Laravel with api.",
+      "ProjectLink": "",
+      "TechStack": ["Laravel", "api", "Html", "CSS"],
+      "Github": "https://github.com/khornSaokhouch/Movie-",
+      "Team": ["Khorn saokhouch "]
+    },
+    {
+      "id": "5",
+      "Img": "/project5.png",
+      "Title": "Movie Website UI",
+      "Description": "This website built using Html and Css.",
+      "ProjectLink": "",
+      "TechStack": ["Html", "CSS"],
+      "Team": ["Khorn saokhouch "]
+    },
+    {
+      "id": "6",
+      "Img": "/project6.png",
+      "Title": "Movie Website Design",
+      "Description": "This website built using Html and Css.",
+      "ProjectLink": "",
+      "TechStack": ["Html", "CSS"],
+      "Team": ["Khorn saokhouch "]
     }
   ],
     "certificates": [
